@@ -25,8 +25,6 @@ export default meta
 
 type Story = StoryObj<typeof MainLayout>
 
-console.log(ArticleStories.default.args)
-
 export const Default: Story = {
   args: {
     children: (

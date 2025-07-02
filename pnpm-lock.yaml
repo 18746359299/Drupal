@@ -14,6 +14,9 @@ importers:
       '@conform-to/zod':
         specifier: ^1.4.0
         version: 1.7.2(zod@3.25.67)
+      '@heroicons/react':
+        specifier: ^2.2.0
+        version: 2.2.0(react@19.1.0)
       '@radix-ui/react-accordion':
         specifier: ^1.2.0
         version: 1.2.11(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -47,9 +50,6 @@ importers:
       drupal-decoupled:
         specifier: ^0.2.2
         version: 0.2.2(@types/react@18.3.23)(immer@10.1.1)(use-sync-external-store@1.5.0(react@19.1.0))
-      gql.tada:
-        specifier: ^1.8.10
-        version: 1.8.10(graphql@15.8.0)(typescript@5.8.3)
       lucide-react:
         specifier: ^0.474.0
         version: 0.474.0(react@19.1.0)
@@ -75,6 +75,9 @@ importers:
       '@0no-co/graphqlsp':
         specifier: ^1.12.14
         version: 1.12.16(graphql@15.8.0)(typescript@5.8.3)
+      '@gql.tada/cli-utils':
+        specifier: ^1.6.3
+        version: 1.6.3(@0no-co/graphqlsp@1.12.16(graphql@15.8.0)(typescript@5.8.3))(graphql@15.8.0)(typescript@5.8.3)
       '@storybook/addon-essentials':
         specifier: ^8.5.1
         version: 8.6.14(@types/react@18.3.23)(storybook@8.6.14(prettier@3.6.0))
@@ -132,6 +135,9 @@ importers:
       eslint-plugin-storybook:
         specifier: ^0.11.2
         version: 0.11.6(eslint@8.57.1)(typescript@5.8.3)
+      gql.tada:
+        specifier: ^1.8.10
+        version: 1.8.10(graphql@15.8.0)(typescript@5.8.3)
       postcss:
         specifier: ^8
         version: 8.5.6
@@ -1104,6 +1110,11 @@ packages:
     peerDependencies:
       graphql: ^15.5.0 || ^16.0.0 || ^17.0.0
       typescript: ^5.0.0
+
+  '@heroicons/react@2.2.0':
+    resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
+    peerDependencies:
+      react: '>= 16 || ^19.0.0-rc'
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -6349,6 +6360,10 @@ snapshots:
       '@0no-co/graphql.web': 1.1.2(graphql@15.8.0)
       graphql: 15.8.0
       typescript: 5.8.3
+
+  '@heroicons/react@2.2.0(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:

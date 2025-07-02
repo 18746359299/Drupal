@@ -1,5 +1,38 @@
 """The schema's entry-point for queries."""
 type Query {
+  """Load a MediaImage entity by id"""
+  mediaImage(
+    """The id of the MediaImage to load."""
+    id: ID!
+
+    """
+    Optionally set the revision of the entity. Eg current, latest, or an ID.
+    """
+    revision: ID
+  ): MediaImage
+
+  """Load a TermActivityTags entity by id"""
+  termActivityTags(
+    """The id of the TermActivityTags to load."""
+    id: ID!
+
+    """
+    Optionally set the revision of the entity. Eg current, latest, or an ID.
+    """
+    revision: ID
+  ): TermActivityTags
+
+  """Load a TermKuponfenLei entity by id"""
+  termKuponfenLei(
+    """The id of the TermKuponfenLei to load."""
+    id: ID!
+
+    """
+    Optionally set the revision of the entity. Eg current, latest, or an ID.
+    """
+    revision: ID
+  ): TermKuponfenLei
+
   """Load a TermTags entity by id"""
   termTags(
     """The id of the TermTags to load."""
@@ -10,6 +43,17 @@ type Query {
     """
     revision: ID
   ): TermTags
+
+  """Load a NodeActivity entity by id"""
+  nodeActivity(
+    """The id of the NodeActivity to load."""
+    id: ID!
+
+    """
+    Optionally set the revision of the entity. Eg current, latest, or an ID.
+    """
+    revision: ID
+  ): NodeActivity
 
   """Load a NodeArticle entity by id"""
   nodeArticle(
@@ -33,17 +77,6 @@ type Query {
     revision: ID
   ): NodePage
 
-  """Load a MediaImage entity by id"""
-  mediaImage(
-    """The id of the MediaImage to load."""
-    id: ID!
-
-    """
-    Optionally set the revision of the entity. Eg current, latest, or an ID.
-    """
-    revision: ID
-  ): MediaImage
-
   """Load a ParagraphAuthor entity by id"""
   paragraphAuthor(
     """The id of the ParagraphAuthor to load."""
@@ -54,6 +87,17 @@ type Query {
     """
     revision: ID
   ): ParagraphAuthor
+
+  """Load a ParagraphBannerGroup entity by id"""
+  paragraphBannerGroup(
+    """The id of the ParagraphBannerGroup to load."""
+    id: ID!
+
+    """
+    Optionally set the revision of the entity. Eg current, latest, or an ID.
+    """
+    revision: ID
+  ): ParagraphBannerGroup
 
   """Load a ParagraphCardGroup entity by id"""
   paragraphCardGroup(
@@ -174,6 +218,69 @@ type Query {
   """Schema information."""
   info: SchemaInformation!
 
+  """List of all MediaImage on the platform."""
+  mediaImages(
+    """Returns the elements that come after the specified cursor."""
+    after: Cursor
+
+    """Returns the elements that come before the specified cursor."""
+    before: Cursor
+
+    """Returns up to the first n elements from the list."""
+    first: Int
+
+    """Returns up to the last n elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: ConnectionSortKeys
+  ): MediaImageConnection!
+
+  """List of all TermActivityTags on the platform."""
+  termActivityTagsItems(
+    """Returns the elements that come after the specified cursor."""
+    after: Cursor
+
+    """Returns the elements that come before the specified cursor."""
+    before: Cursor
+
+    """Returns up to the first n elements from the list."""
+    first: Int
+
+    """Returns up to the last n elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: ConnectionSortKeys
+  ): TermActivityTagsConnection!
+
+  """List of all TermKuponfenLei on the platform."""
+  termKuponfenLeis(
+    """Returns the elements that come after the specified cursor."""
+    after: Cursor
+
+    """Returns the elements that come before the specified cursor."""
+    before: Cursor
+
+    """Returns up to the first n elements from the list."""
+    first: Int
+
+    """Returns up to the last n elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: ConnectionSortKeys
+  ): TermKuponfenLeiConnection!
+
   """List of all TermTags on the platform."""
   termTagsItems(
     """Returns the elements that come after the specified cursor."""
@@ -194,6 +301,27 @@ type Query {
     """Sort the underlying list by the given key."""
     sortKey: ConnectionSortKeys
   ): TermTagsConnection!
+
+  """List of all NodeActivity on the platform."""
+  nodeActivities(
+    """Returns the elements that come after the specified cursor."""
+    after: Cursor
+
+    """Returns the elements that come before the specified cursor."""
+    before: Cursor
+
+    """Returns up to the first n elements from the list."""
+    first: Int
+
+    """Returns up to the last n elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: ConnectionSortKeys
+  ): NodeActivityConnection!
 
   """List of all NodeArticle on the platform."""
   nodeArticles(
@@ -237,27 +365,6 @@ type Query {
     sortKey: ConnectionSortKeys
   ): NodePageConnection!
 
-  """List of all MediaImage on the platform."""
-  mediaImages(
-    """Returns the elements that come after the specified cursor."""
-    after: Cursor
-
-    """Returns the elements that come before the specified cursor."""
-    before: Cursor
-
-    """Returns up to the first n elements from the list."""
-    first: Int
-
-    """Returns up to the last n elements from the list."""
-    last: Int
-
-    """Reverse the order of the underlying list."""
-    reverse: Boolean = false
-
-    """Sort the underlying list by the given key."""
-    sortKey: ConnectionSortKeys
-  ): MediaImageConnection!
-
   """List of all ParagraphAuthor on the platform."""
   paragraphAuthors(
     """Returns the elements that come after the specified cursor."""
@@ -278,6 +385,27 @@ type Query {
     """Sort the underlying list by the given key."""
     sortKey: ConnectionSortKeys
   ): ParagraphAuthorConnection!
+
+  """List of all ParagraphBannerGroup on the platform."""
+  paragraphBannerGroups(
+    """Returns the elements that come after the specified cursor."""
+    after: Cursor
+
+    """Returns the elements that come before the specified cursor."""
+    before: Cursor
+
+    """Returns up to the first n elements from the list."""
+    first: Int
+
+    """Returns up to the last n elements from the list."""
+    last: Int
+
+    """Reverse the order of the underlying list."""
+    reverse: Boolean = false
+
+    """Sort the underlying list by the given key."""
+    sortKey: ConnectionSortKeys
+  ): ParagraphBannerGroupConnection!
 
   """List of all ParagraphCardGroup on the platform."""
   paragraphCardGroups(
@@ -494,6 +622,18 @@ type Query {
     revision: ID
   ): RouteUnion
 
+  """Query for view activity display graphql_1."""
+  activityGraphql1(
+    """The page number to display."""
+    page: Int = 0
+  ): ActivityGraphql1Result
+
+  """Query for view blog display month_featured."""
+  viewBlogMonthFeatured(
+    """The page number to display."""
+    page: Int = 0
+  ): ViewBlogMonthFeaturedResult
+
   """Query for view blog display teaser."""
   viewBlogTeaser: ViewBlogTeaserResult
 
@@ -503,6 +643,24 @@ type Query {
     page: Int = 0
   ): ViewBlogTeaserFeaturedResult
 
+  """Query for view coupons display all."""
+  coupons(
+    """The page number to display."""
+    page: Int = 0
+
+    """Filter the view."""
+    filter: CouponsFilterInput
+  ): CouponsResult
+
+  """Query for view coupons display graphql_2."""
+  couponsFood(
+    """The page number to display."""
+    page: Int = 0
+
+    """Filter the view."""
+    filter: CouponsFoodFilterInput
+  ): CouponsFoodResult
+
   """Load a webform."""
   webform(
     """Webform ID."""
@@ -510,19 +668,22 @@ type Query {
   ): Webform
 }
 
-"""Use tags to group articles on similar topics into categories."""
-type TermTags implements TermInterface & MetaTagInterface & EdgeNode {
+"""Use local images for reusable media."""
+type MediaImage implements MediaInterface & MetaTagInterface & EdgeNode {
   """The Universally Unique IDentifier (UUID)."""
   id: ID!
 
-  """The time that the term was last edited."""
+  """The time the media item was last edited."""
   changed: DateTime!
 
-  """Description"""
-  description: Text!
+  """The time the media item was created."""
+  created: DateTime!
 
-  """The term language code."""
+  """Language"""
   langcode: Language!
+
+  """Image"""
+  mediaImage: Image!
 
   """The computed meta tags for the entity."""
   metatag: [MetaTagUnion!]!
@@ -530,31 +691,25 @@ type TermTags implements TermInterface & MetaTagInterface & EdgeNode {
   """Name"""
   name: String!
 
-  """The parents of this term."""
-  parent: TermUnion
-
   """URL alias"""
   path: String
 
   """Published"""
   status: Boolean!
-
-  """The weight of this term in relation to other terms."""
-  weight: Int!
 }
 
-"""Entity type taxonomy_term."""
-interface TermInterface {
+"""Entity type media."""
+interface MediaInterface {
   """The Universally Unique IDentifier (UUID)."""
   id: ID!
 
-  """The time that the term was last edited."""
+  """The time the media item was last edited."""
   changed: DateTime!
 
-  """Description"""
-  description: Text!
+  """The time the media item was created."""
+  created: DateTime!
 
-  """The term language code."""
+  """Language"""
   langcode: Language!
 
   """The computed meta tags for the entity."""
@@ -563,17 +718,11 @@ interface TermInterface {
   """Name"""
   name: String!
 
-  """The parents of this term."""
-  parent: TermUnion
-
   """URL alias"""
   path: String
 
   """Published"""
   status: Boolean!
-
-  """The weight of this term in relation to other terms."""
-  weight: Int!
 }
 
 """A DateTime object."""
@@ -606,27 +755,6 @@ scalar UtcOffset
 
 """RFC 3339 compliant time string."""
 scalar Time
-
-"""A processed text format defined by the CMS."""
-type Text {
-  """The raw text value."""
-  value: String
-
-  """The processed text value."""
-  processed: Html
-
-  """The text format used to process the text value."""
-  format: String
-}
-
-"""
-An HTML string
-
-Content of this type is deemed safe by the server for raw output given the
-origin and the context of its usage. The HTML can still contain scripts or style
-tags where the creating user had permission to input these.
-"""
-scalar Html
 
 """A language definition provided by the CMS."""
 type Language {
@@ -741,9 +869,6 @@ type MetaTagScriptAttributes {
   integrity: String
 }
 
-"""Entity type taxonomy_term."""
-union TermUnion = TermTags
-
 """This entity has meta tags enabled."""
 interface MetaTagInterface {
   """The computed meta tags for the entity."""
@@ -755,18 +880,219 @@ interface EdgeNode {
   id: ID!
 }
 
-"""
-Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.
-"""
-type NodeArticle implements NodeInterface & MetaTagInterface & EdgeNode {
+"""A image object to represent an managed file."""
+type Image {
+  """The URL of the image."""
+  url: String!
+
+  """The width of the image."""
+  width: Int!
+
+  """The height of the image."""
+  height: Int!
+
+  """The alt text of the image."""
+  alt: String
+
+  """The title text of the image."""
+  title: String
+
+  """The size of the image in bytes."""
+  size: Int!
+
+  """The mime type of the image."""
+  mime: String
+
+  """Image variations control different sizes and formats for images."""
+  variations(styles: [ImageStyleAvailable]): [ImageStyleDerivative!]
+}
+
+"""List of image styles available to use."""
+enum ImageStyleAvailable {
+  """No image styles have been enabled."""
+  UNDEFINED
+}
+
+"""ImageStyle derivatives for an Image."""
+type ImageStyleDerivative {
+  name: String!
+  url: String!
+  width: Int!
+  height: Int!
+}
+
+"""Entity type taxonomy_term."""
+type TermActivityTags implements TermInterface & MetaTagInterface & EdgeNode {
   """The Universally Unique IDentifier (UUID)."""
   id: ID!
+
+  """The time that the term was last edited."""
+  changed: DateTime!
+
+  """Description"""
+  description: Text!
+
+  """The term language code."""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """Name"""
+  name: String!
+
+  """The parents of this term."""
+  parent: TermUnion
+
+  """URL alias"""
+  path: String
+
+  """Published"""
+  status: Boolean!
+
+  """The weight of this term in relation to other terms."""
+  weight: Int!
+}
+
+"""Entity type taxonomy_term."""
+interface TermInterface {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The time that the term was last edited."""
+  changed: DateTime!
+
+  """Description"""
+  description: Text!
+
+  """The term language code."""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """Name"""
+  name: String!
+
+  """The parents of this term."""
+  parent: TermUnion
+
+  """URL alias"""
+  path: String
+
+  """Published"""
+  status: Boolean!
+
+  """The weight of this term in relation to other terms."""
+  weight: Int!
+}
+
+"""A processed text format defined by the CMS."""
+type Text {
+  """The raw text value."""
+  value: String
+
+  """The processed text value."""
+  processed: Html
+
+  """The text format used to process the text value."""
+  format: String
+}
+
+"""
+An HTML string
+
+Content of this type is deemed safe by the server for raw output given the
+origin and the context of its usage. The HTML can still contain scripts or style
+tags where the creating user had permission to input these.
+"""
+scalar Html
+
+"""Entity type taxonomy_term."""
+union TermUnion = TermActivityTags | TermKuponfenLei | TermTags
+
+"""Entity type taxonomy_term."""
+type TermKuponfenLei implements TermInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The time that the term was last edited."""
+  changed: DateTime!
+
+  """Description"""
+  description: Text!
+
+  """The term language code."""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """Name"""
+  name: String!
+
+  """The parents of this term."""
+  parent: TermUnion
+
+  """URL alias"""
+  path: String
+
+  """Published"""
+  status: Boolean!
+
+  """The weight of this term in relation to other terms."""
+  weight: Int!
+}
+
+"""Use tags to group articles on similar topics into categories."""
+type TermTags implements TermInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The time that the term was last edited."""
+  changed: DateTime!
+
+  """Description"""
+  description: Text!
+
+  """The term language code."""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """Name"""
+  name: String!
+
+  """The parents of this term."""
+  parent: TermUnion
+
+  """URL alias"""
+  path: String
+
+  """Published"""
+  status: Boolean!
+
+  """The weight of this term in relation to other terms."""
+  weight: Int!
+}
+
+"""Entity type node."""
+type NodeActivity implements NodeInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """Body"""
+  activityBody: TextSummary
+
+  """tags"""
+  activityTags: TermUnion
 
   """The author of this content."""
   author: User
 
-  """Body"""
-  body: TextSummary!
+  """FAQ"""
+  body: [ParagraphUnion!]
 
   """The time that the node was last edited."""
   changed: DateTime!
@@ -797,11 +1123,6 @@ type NodeArticle implements NodeInterface & MetaTagInterface & EdgeNode {
 
   """Summary"""
   summary: String!
-
-  """
-  Enter a comma-separated list. For example: Amsterdam, Mexico City, "Cleveland, Ohio"
-  """
-  tags: [TermUnion!]
 
   """Title"""
   title: String!
@@ -926,104 +1247,6 @@ enum UserStatus {
 """Entity type media."""
 union MediaUnion = MediaImage
 
-"""Use local images for reusable media."""
-type MediaImage implements MediaInterface & MetaTagInterface & EdgeNode {
-  """The Universally Unique IDentifier (UUID)."""
-  id: ID!
-
-  """The time the media item was last edited."""
-  changed: DateTime!
-
-  """The time the media item was created."""
-  created: DateTime!
-
-  """Language"""
-  langcode: Language!
-
-  """Image"""
-  mediaImage: Image!
-
-  """The computed meta tags for the entity."""
-  metatag: [MetaTagUnion!]!
-
-  """Name"""
-  name: String!
-
-  """URL alias"""
-  path: String
-
-  """Published"""
-  status: Boolean!
-}
-
-"""Entity type media."""
-interface MediaInterface {
-  """The Universally Unique IDentifier (UUID)."""
-  id: ID!
-
-  """The time the media item was last edited."""
-  changed: DateTime!
-
-  """The time the media item was created."""
-  created: DateTime!
-
-  """Language"""
-  langcode: Language!
-
-  """The computed meta tags for the entity."""
-  metatag: [MetaTagUnion!]!
-
-  """Name"""
-  name: String!
-
-  """URL alias"""
-  path: String
-
-  """Published"""
-  status: Boolean!
-}
-
-"""A image object to represent an managed file."""
-type Image {
-  """The URL of the image."""
-  url: String!
-
-  """The width of the image."""
-  width: Int!
-
-  """The height of the image."""
-  height: Int!
-
-  """The alt text of the image."""
-  alt: String
-
-  """The title text of the image."""
-  title: String
-
-  """The size of the image in bytes."""
-  size: Int!
-
-  """The mime type of the image."""
-  mime: String
-
-  """Image variations control different sizes and formats for images."""
-  variations(styles: [ImageStyleAvailable]): [ImageStyleDerivative!]
-}
-
-"""List of image styles available to use."""
-enum ImageStyleAvailable {
-  """No image styles have been enabled."""
-  UNDEFINED
-}
-
-"""ImageStyle derivatives for an Image."""
-type ImageStyleDerivative {
-  name: String!
-  url: String!
-  width: Int!
-  height: Int!
-}
-
 """A processed text format with summary defined by the CMS."""
 type TextSummary {
   """The raw text value."""
@@ -1039,58 +1262,8 @@ type TextSummary {
   summary: Html
 }
 
-"""
-Use <em>basic pages</em> for your static content, such as an 'About us' page.
-"""
-type NodePage implements NodeInterface & MetaTagInterface & EdgeNode {
-  """The Universally Unique IDentifier (UUID)."""
-  id: ID!
-
-  """The author of this content."""
-  author: User
-
-  """The time that the node was last edited."""
-  changed: DateTime!
-
-  """Components"""
-  components: [ParagraphUnion!]
-
-  """The date and time that the content was created."""
-  created: DateTime!
-
-  """Image"""
-  image: MediaUnion!
-
-  """Language"""
-  langcode: Language!
-
-  """The computed meta tags for the entity."""
-  metatag: [MetaTagUnion!]!
-
-  """URL alias"""
-  path: String
-
-  """Promoted to front page"""
-  promote: Boolean!
-
-  """Show Title"""
-  showTitle: Boolean
-
-  """Published"""
-  status: Boolean!
-
-  """Sticky at top of lists"""
-  sticky: Boolean!
-
-  """Summary"""
-  summary: String!
-
-  """Title"""
-  title: String!
-}
-
 """Entity type paragraph."""
-union ParagraphUnion = ParagraphAuthor | ParagraphCardGroup | ParagraphCta | ParagraphFaq | ParagraphHero | ParagraphLogo | ParagraphLogoGroup | ParagraphQuestion | ParagraphSimpleCard | ParagraphTestimonial | ParagraphViewReference | ParagraphWebform
+union ParagraphUnion = ParagraphAuthor | ParagraphBannerGroup | ParagraphCardGroup | ParagraphCta | ParagraphFaq | ParagraphHero | ParagraphLogo | ParagraphLogoGroup | ParagraphQuestion | ParagraphSimpleCard | ParagraphTestimonial | ParagraphViewReference | ParagraphWebform
 
 """Entity type paragraph."""
 type ParagraphAuthor implements ParagraphInterface & EdgeNode {
@@ -1132,6 +1305,33 @@ interface ParagraphInterface {
 
   """Published"""
   status: Boolean!
+}
+
+"""Entity type paragraph."""
+type ParagraphBannerGroup implements ParagraphInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The time that the Paragraph was created."""
+  created: DateTime!
+
+  """Description"""
+  description: String
+
+  """Heading"""
+  heading: String!
+
+  """Items"""
+  items: [ParagraphUnion!]!
+
+  """The paragraphs entity language code."""
+  langcode: Language!
+
+  """Published"""
+  status: Boolean!
+
+  """Subheading"""
+  subheading: String
 }
 
 """Entity type paragraph."""
@@ -1426,10 +1626,10 @@ enum SortDirection {
 }
 
 """All available view result types."""
-union ViewResultUnion = ViewBlogTeaserResult | ViewBlogTeaserFeaturedResult
+union ViewResultUnion = ActivityGraphql1Result | ViewBlogMonthFeaturedResult | ViewBlogTeaserResult | ViewBlogTeaserFeaturedResult | CouponsResult | CouponsFoodResult
 
-"""Result for view blog display teaser."""
-type ViewBlogTeaserResult implements View {
+"""Result for view activity display graphql_1."""
+type ActivityGraphql1Result implements View {
   """The ID of the view."""
   id: ID!
 
@@ -1495,7 +1695,163 @@ type ViewPageInfo {
 }
 
 """Entity type node."""
-union NodeUnion = NodeArticle | NodePage
+union NodeUnion = NodeActivity | NodeArticle | NodePage
+
+"""
+Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.
+"""
+type NodeArticle implements NodeInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The author of this content."""
+  author: User
+
+  """Body"""
+  body: TextSummary!
+
+  """The time that the node was last edited."""
+  changed: DateTime!
+
+  """The date and time that the content was created."""
+  created: DateTime!
+
+  """Image"""
+  image: MediaUnion!
+
+  """Language"""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """URL alias"""
+  path: String
+
+  """Promoted to front page"""
+  promote: Boolean!
+
+  """Published"""
+  status: Boolean!
+
+  """Sticky at top of lists"""
+  sticky: Boolean!
+
+  """Summary"""
+  summary: String!
+
+  """
+  Enter a comma-separated list. For example: Amsterdam, Mexico City, "Cleveland, Ohio"
+  """
+  tags: [TermUnion!]
+
+  """Title"""
+  title: String!
+}
+
+"""
+Use <em>basic pages</em> for your static content, such as an 'About us' page.
+"""
+type NodePage implements NodeInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
+  id: ID!
+
+  """The author of this content."""
+  author: User
+
+  """The time that the node was last edited."""
+  changed: DateTime!
+
+  """Components"""
+  components: [ParagraphUnion!]
+
+  """The date and time that the content was created."""
+  created: DateTime!
+
+  """Image"""
+  image: MediaUnion!
+
+  """Language"""
+  langcode: Language!
+
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
+
+  """URL alias"""
+  path: String
+
+  """Promoted to front page"""
+  promote: Boolean!
+
+  """Show Title"""
+  showTitle: Boolean
+
+  """Published"""
+  status: Boolean!
+
+  """Sticky at top of lists"""
+  sticky: Boolean!
+
+  """Summary"""
+  summary: String!
+
+  """Title"""
+  title: String!
+}
+
+"""Result for view blog display month_featured."""
+type ViewBlogMonthFeaturedResult implements View {
+  """The ID of the view."""
+  id: ID!
+
+  """The machine name of the view."""
+  view: String!
+
+  """The machine name of the display."""
+  display: String!
+
+  """The language code of the view."""
+  langcode: String
+
+  """The human friendly label of the view."""
+  label: String
+
+  """The description of the view."""
+  description: String
+
+  """Information about the page in the view."""
+  pageInfo: ViewPageInfo!
+
+  """The results of the view."""
+  results: [NodeUnion!]!
+}
+
+"""Result for view blog display teaser."""
+type ViewBlogTeaserResult implements View {
+  """The ID of the view."""
+  id: ID!
+
+  """The machine name of the view."""
+  view: String!
+
+  """The machine name of the display."""
+  display: String!
+
+  """The language code of the view."""
+  langcode: String
+
+  """The human friendly label of the view."""
+  label: String
+
+  """The description of the view."""
+  description: String
+
+  """Information about the page in the view."""
+  pageInfo: ViewPageInfo!
+
+  """The results of the view."""
+  results: [NodeUnion!]!
+}
 
 """Result for view blog display teaser_featured."""
 type ViewBlogTeaserFeaturedResult implements View {
@@ -1522,6 +1878,129 @@ type ViewBlogTeaserFeaturedResult implements View {
 
   """The results of the view."""
   results: [NodeUnion!]!
+}
+
+"""Result for view coupons display all."""
+type CouponsResult implements View {
+  """The ID of the view."""
+  id: ID!
+
+  """The machine name of the view."""
+  view: String!
+
+  """The machine name of the display."""
+  display: String!
+
+  """The language code of the view."""
+  langcode: String
+
+  """The human friendly label of the view."""
+  label: String
+
+  """The description of the view."""
+  description: String
+
+  """Information about the page in the view."""
+  pageInfo: ViewPageInfo!
+
+  """Exposed filters for the view."""
+  filters: [ViewFilter]!
+
+  """The results of the view."""
+  results: [CouponsRow!]!
+}
+
+"""An exposed filter option for the view."""
+type ViewFilter {
+  """The filter identifier."""
+  id: ID!
+
+  """The filter plugin type."""
+  plugin: String!
+
+  """The filter element type."""
+  type: String!
+
+  """The filter operator."""
+  operator: String!
+
+  """The filter element label."""
+  label: String
+
+  """The filter element description."""
+  description: String
+
+  """Whether the filter is required."""
+  required: Boolean!
+
+  """Whether the filter allows multiple values."""
+  multiple: Boolean!
+
+  """The value for the filter. Could be an array for multiple values."""
+  value: UntypedStructuredData
+
+  """The filter element options if any are defined."""
+  options: UntypedStructuredData
+
+  """The filter element attributes."""
+  attributes: UntypedStructuredData!
+}
+
+"""Untyped structured data. Eg JSON, configuration, settings, attributes."""
+scalar UntypedStructuredData
+
+"""Result for view coupons display all."""
+type CouponsRow {
+  code: String
+  title: String
+  company: String
+  category: String
+  validFrom: String
+  validTo: String
+  status: String
+  imageTargetId: String
+}
+
+"""Result for view coupons display graphql_2."""
+type CouponsFoodResult implements View {
+  """The ID of the view."""
+  id: ID!
+
+  """The machine name of the view."""
+  view: String!
+
+  """The machine name of the display."""
+  display: String!
+
+  """The language code of the view."""
+  langcode: String
+
+  """The human friendly label of the view."""
+  label: String
+
+  """The description of the view."""
+  description: String
+
+  """Information about the page in the view."""
+  pageInfo: ViewPageInfo!
+
+  """Exposed filters for the view."""
+  filters: [ViewFilter]!
+
+  """The results of the view."""
+  results: [CouponsFoodRow!]!
+}
+
+"""Result for view coupons display graphql_2."""
+type CouponsFoodRow {
+  code: String
+  title: String
+  company: String
+  category: String
+  validFrom: String
+  validTo: String
+  status: String
+  imageTargetId: String
 }
 
 """Entity type paragraph."""
@@ -1562,12 +2041,24 @@ type Webform {
 """A webform element."""
 type WebformElement {
   admin_title: String
+  counter_type: String
+  counter_minimum: Int
+  counter_maximum: Int
+  counter_maximum_message: String
   id: String
   options: [WebformElementOption]
+  pattern: String
+  pattern_error: String
   placeholder: String
+  required: Boolean
+  required_error: String
   states: [WebformElementState]
   title: String
   type: String
+  unique: Boolean
+  unique_entity: Boolean
+  unique_user: Boolean
+  unique_error: String
   webform_children: [String]
   webform_composite: Boolean
   webform_depth: Int
@@ -1598,7 +2089,7 @@ enum MenuAvailable {
   """Footer"""
   FOOTER
 
-  """Main navigation"""
+  """web menu"""
   MAIN
 }
 
@@ -1695,7 +2186,7 @@ interface Route {
 }
 
 """A list of possible entities that can be returned by URL."""
-union RouteEntityUnion = TermTags | NodeArticle | NodePage | MediaImage
+union RouteEntityUnion = MediaImage | TermActivityTags | TermKuponfenLei | TermTags | NodeActivity | NodeArticle | NodePage
 
 """Route outside of this website."""
 type RouteExternal implements Route {
@@ -1790,10 +2281,10 @@ enum ConnectionSortKeys {
   WEIGHT
 }
 
-"""A paginated set of results for TermTags."""
-type TermTagsConnection implements Connection {
-  edges: [TermTagsEdge!]!
-  nodes: [TermTags!]!
+"""A paginated set of results for MediaImage."""
+type MediaImageConnection implements Connection {
+  edges: [MediaImageEdge!]!
+  nodes: [MediaImage!]!
   pageInfo: ConnectionPageInfo!
 }
 
@@ -1835,10 +2326,62 @@ type ConnectionPageInfo {
   endCursor: Cursor
 }
 
+"""Edge for MediaImage."""
+type MediaImageEdge implements Edge {
+  cursor: Cursor!
+  node: MediaImage!
+}
+
+"""A paginated set of results for TermActivityTags."""
+type TermActivityTagsConnection implements Connection {
+  edges: [TermActivityTagsEdge!]!
+  nodes: [TermActivityTags!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+"""Edge for TermActivityTags."""
+type TermActivityTagsEdge implements Edge {
+  cursor: Cursor!
+  node: TermActivityTags!
+}
+
+"""A paginated set of results for TermKuponfenLei."""
+type TermKuponfenLeiConnection implements Connection {
+  edges: [TermKuponfenLeiEdge!]!
+  nodes: [TermKuponfenLei!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+"""Edge for TermKuponfenLei."""
+type TermKuponfenLeiEdge implements Edge {
+  cursor: Cursor!
+  node: TermKuponfenLei!
+}
+
+"""A paginated set of results for TermTags."""
+type TermTagsConnection implements Connection {
+  edges: [TermTagsEdge!]!
+  nodes: [TermTags!]!
+  pageInfo: ConnectionPageInfo!
+}
+
 """Edge for TermTags."""
 type TermTagsEdge implements Edge {
   cursor: Cursor!
   node: TermTags!
+}
+
+"""A paginated set of results for NodeActivity."""
+type NodeActivityConnection implements Connection {
+  edges: [NodeActivityEdge!]!
+  nodes: [NodeActivity!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+"""Edge for NodeActivity."""
+type NodeActivityEdge implements Edge {
+  cursor: Cursor!
+  node: NodeActivity!
 }
 
 """A paginated set of results for NodeArticle."""
@@ -1867,19 +2410,6 @@ type NodePageEdge implements Edge {
   node: NodePage!
 }
 
-"""A paginated set of results for MediaImage."""
-type MediaImageConnection implements Connection {
-  edges: [MediaImageEdge!]!
-  nodes: [MediaImage!]!
-  pageInfo: ConnectionPageInfo!
-}
-
-"""Edge for MediaImage."""
-type MediaImageEdge implements Edge {
-  cursor: Cursor!
-  node: MediaImage!
-}
-
 """A paginated set of results for ParagraphAuthor."""
 type ParagraphAuthorConnection implements Connection {
   edges: [ParagraphAuthorEdge!]!
@@ -1891,6 +2421,19 @@ type ParagraphAuthorConnection implements Connection {
 type ParagraphAuthorEdge implements Edge {
   cursor: Cursor!
   node: ParagraphAuthor!
+}
+
+"""A paginated set of results for ParagraphBannerGroup."""
+type ParagraphBannerGroupConnection implements Connection {
+  edges: [ParagraphBannerGroupEdge!]!
+  nodes: [ParagraphBannerGroup!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+"""Edge for ParagraphBannerGroup."""
+type ParagraphBannerGroupEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphBannerGroup!
 }
 
 """A paginated set of results for ParagraphCardGroup."""
@@ -2010,6 +2553,16 @@ type UserEdge implements Edge {
   node: User!
 }
 
+input CouponsFilterInput {
+  """クーポンコード """
+  code: String
+}
+
+input CouponsFoodFilterInput {
+  """クーポンコード """
+  code: String
+}
+
 """The schema's entry-point for mutations."""
 type Mutation {
   """Placeholder for mutation extension."""
@@ -2120,47 +2673,8 @@ type UnsupportedType {
   unsupported: Boolean
 }
 
-"""Untyped structured data. Eg JSON, configuration, settings, attributes."""
-scalar UntypedStructuredData
-
 """Entity type user."""
 union UserUnion = User
-
-"""An exposed filter option for the view."""
-type ViewFilter {
-  """The filter identifier."""
-  id: ID!
-
-  """The filter plugin type."""
-  plugin: String!
-
-  """The filter element type."""
-  type: String!
-
-  """The filter operator."""
-  operator: String!
-
-  """The filter element label."""
-  label: String
-
-  """The filter element description."""
-  description: String
-
-  """Whether the filter is required."""
-  required: Boolean!
-
-  """Whether the filter allows multiple values."""
-  multiple: Boolean!
-
-  """The value for the filter. Could be an array for multiple values."""
-  value: UntypedStructuredData
-
-  """The filter element options if any are defined."""
-  options: UntypedStructuredData
-
-  """The filter element attributes."""
-  attributes: UntypedStructuredData!
-}
 
 """A reference to an embedded view"""
 type ViewReference {

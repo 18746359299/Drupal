@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 import { type ImageProps, Link, type LinkProps } from '@/components/primitives'
 import { cn } from '@/lib/utils'
 
-const footerVariants = cva('w-full bg-gray-200 ', {
+const footerVariants = cva('w-full bg-gray-50 border-t border-gray-200', {
   variants: {},
   defaultVariants: {},
 })
@@ -22,14 +22,21 @@ export interface FooterProps
 }
 
 const FooterColumn = ({ title, links }: FooterColumn) => (
-  <div className="mb-8 lg:mb-0">
-    <h5 className="h5">{title}</h5>
+  <div className="mb-4">
+    {title && title.trim() !== "" && (
+      <h5 className="text-base font-medium mb-3 text-gray-800">{title}</h5>
+    )}
     <ul className="space-y-2">
       {links.map(
         (link, index) =>
           link && (
             <li key={index}>
-              <Link {...link}>{link.children}</Link>
+              <Link 
+                {...link} 
+                className="text-sm text-gray-600 hover:text-primary hover:underline transition-colors"
+              >
+                {link.children}
+              </Link>
             </li>
           )
       )}
@@ -46,17 +53,25 @@ export const Footer = ({
 }: FooterProps) => {
   return (
     <footer className={cn(footerVariants(), className)} {...props}>
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
-          {columns.map((column, index) => (
-            <FooterColumn key={index} {...column} />
-          ))}
-        </div>
-        <div className="border-border mt-12 flex flex-col items-center justify-between border-t pt-8 md:flex-row">
-          <div className="mb-4 md:mb-0">
-            <img src={logo.src} alt={logo.alt} className="h-8 w-auto" />
+      <div className="container mx-auto px-6 py-6">
+        <div className="flex flex-col md:flex-row items-start justify-between mb-6">
+          <div className="w-full md:w-1/3 mb-6 md:mb-0">
+            <img 
+              src={logo.src} 
+              alt={logo.alt} 
+              className="h-7 w-auto" 
+            />
           </div>
-          <div className="text-muted-foreground text-sm">{copyrightText}</div>
+          
+          <div className="w-full md:w-2/3 grid grid-cols-2 gap-6">
+            {columns.map((column, index) => (
+              <FooterColumn key={index} {...column} />
+            ))}
+          </div>
+        </div>
+        
+        <div className="border-t border-gray-200 pt-4">
+          <div className="text-xs text-gray-500">{copyrightText}</div>
         </div>
       </div>
     </footer>

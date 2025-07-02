@@ -7,7 +7,7 @@ import {
   generateTurbo,
 } from '@gql.tada/cli-utils'
 ;(async () => {
-  const envPath = path.join(process.cwd(), '.env')
+  const envPath = path.join(process.cwd(), '.env.local')
 
   dotenv.config({ path: envPath })
 

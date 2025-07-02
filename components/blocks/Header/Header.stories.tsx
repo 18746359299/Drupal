@@ -19,24 +19,11 @@ const meta: Meta<typeof Header> = {
       { label: 'Link Three', href: '#' },
       { label: 'Link Four', href: '#' },
     ],
-    actions: [
-      {
-        text: 'Docs',
-        href: 'https://drupal-decoupled.octahedroid.com/docs',
-        variant: 'outline',
-      },
-      {
-        text: 'Get started',
-        href: 'https://drupal-decoupled.octahedroid.com/',
-        variant: 'default',
-      },
-    ],
     sticky: true,
   },
   argTypes: {
     logo: { control: 'object' },
     navItems: { control: 'object' },
-    actions: { control: 'object' },
     sticky: { control: 'boolean' },
   },
 }
@@ -52,24 +39,12 @@ export const NonStickyHeader: Story = {
   },
 }
 
-export const NoActions: Story = {
-  args: {
-    actions: undefined,
-  },
-}
-
 export const CustomLogo: Story = {
   args: {
     logo: {
       src: '/placeholders/icons/doc-tahedroid.png',
       alt: 'Company Logo',
     },
-  },
-}
-
-export const SingleAction: Story = {
-  args: {
-    actions: [{ text: 'Contact Us', href: '/contact', variant: 'default' }],
   },
 }
 

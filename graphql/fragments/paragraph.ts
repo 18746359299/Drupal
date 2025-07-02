@@ -8,6 +8,7 @@ import { ParagraphTestimonialFragment } from '@/integration/resolvers/ParagraphT
 import { ParagraphLogoGroupFragment } from '@/integration/resolvers/ParagraphLogoGroupResolver'
 import { ParagraphFaqFragment } from '@/integration/resolvers/ParagraphFaqResolver'
 import { ParagraphCardGroupFragment } from '@/integration/resolvers/ParagraphCardGroupResolver'
+import { ParagraphBannerGroupFragment } from '@/integration/resolvers/ParagraphBannerGroupResolver'
 
 export const ParagraphUnionFragment = graphql(
   `
@@ -24,6 +25,7 @@ export const ParagraphUnionFragment = graphql(
       ...ParagraphFaqFragment
       ...ParagraphLogoGroupFragment
       ...ParagraphTestimonialFragment
+      ...ParagraphBannerGroupFragment
     }
   `,
   [
@@ -35,5 +37,6 @@ export const ParagraphUnionFragment = graphql(
     ParagraphFaqFragment,
     ParagraphLogoGroupFragment,
     ParagraphTestimonialFragment,
+    ParagraphBannerGroupFragment,
   ]
 )

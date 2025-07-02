@@ -7,9 +7,7 @@ import {
   ViewBlogTeaserFeaturedResultFragment,
   ViewBlogMonthFeaturedResultFragment,
   ViewCouponResultFragment,
-  NodeCouponFragment,
-  ViewActivityResultFragment,
-  NodeActivityFragment
+  NodeCouponFragment
 } from '@/graphql/fragments/view'
 import { LinkFragment } from '@/graphql/fragments/misc'
 import { NodeArticleTeaserFragment } from '@/graphql/fragments/node'
@@ -25,7 +23,6 @@ type ReferenceFragment = (
   | FragmentOf<typeof ViewBlogTeaserFeaturedResultFragment>
   | FragmentOf<typeof ViewBlogMonthFeaturedResultFragment>
   | FragmentOf<typeof ViewCouponResultFragment>
-  | FragmentOf<typeof ViewActivityResultFragment>
 ) & { __typename: string }
 
 const calculateReference = (referenceFragment: ReferenceFragment) => {
@@ -57,12 +54,6 @@ const calculateReference = (referenceFragment: ReferenceFragment) => {
       referenceFragment as FragmentOf<typeof ViewCouponResultFragment>
     )
   }
-  if (referenceFragment.__typename === 'ActivityGraphql1Result') {
-    return readFragment(
-      ViewActivityResultFragment,
-      referenceFragment as FragmentOf<typeof ViewActivityResultFragment>
-    )
-  }
   
   // 处理未知类型，记录错误信息
   console.error('Unknown reference fragment type:', referenceFragment.__typename)
@@ -86,7 +77,6 @@ export const ParagraphViewReferenceFragment = graphql(
         ...ViewBlogTeaserFeaturedResultFragment
         ...ViewBlogMonthFeaturedResultFragment
         ...ViewCouponResultFragment
-        ...ViewActivityResultFragment
       }
     }
   `,
@@ -95,7 +85,6 @@ export const ParagraphViewReferenceFragment = graphql(
     ViewBlogTeaserFeaturedResultFragment,
     ViewBlogMonthFeaturedResultFragment,
     ViewCouponResultFragment,
-    ViewActivityResultFragment,
     LinkFragment,
   ]
 )
@@ -289,78 +278,7 @@ export const ParagraphViewReferenceResolver = async ({
       )
     }
   }
-  // 活动处理
-  if (view === 'activity') {
-    console.log('results==========', results)
-    const cards = results
-      ? results.map((item) => {
-          try {
-            const { image, path, summary, title } = readFragment(
-              NodeActivityFragment,
-              item as FragmentOf<typeof NodeActivityFragment>
-            )
-            
-            // 始终使用activity类型
-            const type = 'activity'
-            
-            const details = {
-              href: path || '#',
-              text: '詳しくはこちら',  // 日本语：更多详情
-              internal: true,
-            }
-
-            if (!image) {
-              return { 
-                type, 
-                heading: title, 
-                summary, 
-                details 
-              }
-            }
-
-            return {
-              type,
-              heading: title,
-              summary,
-              details,
-              image: resolveMediaImage(image),
-            }
-          } catch (error) {
-            // 返回一个基本的活动卡片作为回退
-            const fallbackItem = item as unknown as {
-              title?: string;
-              summary?: string;
-              path?: string;
-            };
-            
-            return {
-              type: 'activity',
-              heading: fallbackItem?.title || '活動',
-              summary: fallbackItem?.summary || '',
-              details: {
-                href: fallbackItem?.path || '#',
-                text: '詳しくはこちら',
-                internal: true,
-              }
-            }
-          }
-        })
-      : []
-      
-    return (
-      <ActivityGroup
-        id={id}
-        key={id}
-        heading={headingOptional || '活動専区'} // 活动专区
-        subheading={subheadingOptional || ''}
-        description={descriptionOptional || ''}
-        // @ts-expect-error - fix typings.
-        cards={cards}
-        // @ts-expect-error - fix typings.
-        action={action}
-      />
-    )
-  }
+  
   // 处理未知视图类型，返回null
   console.error('Unknown view type:', view)
   return null

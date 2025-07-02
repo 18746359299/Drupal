@@ -74,3 +74,31 @@ export const NodeArticleTeaserFragment = graphql(
   `,
   [MediaImageFragment, UserFragment]
 )
+
+export const NodeActivityFragment = graphql(
+  `
+    fragment NodeActivityFragment on NodeActivity {
+      __typename
+      id
+      title
+      summary
+      path
+      changed {
+        timestamp
+      }
+      image {
+        ...MediaImageFragment
+      }
+      author {
+        ...UserFragment
+      }
+      content: body {
+        ...ParagraphUnionFragment
+      }
+      activityBody {
+        processed
+      }
+    }
+  `,
+  [MediaImageFragment, UserFragment, ParagraphUnionFragment]
+)

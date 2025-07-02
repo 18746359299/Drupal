@@ -10,3 +10,14 @@ export const TermTagsFragment = graphql(`
     }
   }
 `)
+
+export const TermCouponCategoriesFragment = graphql(`
+  fragment TermCouponCategoriesFragment on TermKuponfenLei {
+    __typename
+    id
+    name
+    description {
+      processed
+    }
+  }
+`)

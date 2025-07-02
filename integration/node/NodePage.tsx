@@ -13,7 +13,6 @@ export default function NodePageComponent({ node }: NodePageComponentProps) {
   const { title, showTitle, components } = readFragment(NodePageFragment, node)
   // @ts-expect-error skip validation.
   const resolvedComponents = resolveComponents({ components })
-
   return (
     <>
       {showTitle && (

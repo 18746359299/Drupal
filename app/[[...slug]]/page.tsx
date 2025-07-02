@@ -2,7 +2,7 @@ import { FragmentOf, readFragment } from 'gql.tada'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { NodeArticleFragment, NodePageFragment } from '@/graphql/fragments/node'
+import { NodeActivityFragment, NodeArticleFragment, NodePageFragment } from '@/graphql/fragments/node'
 import { TermTagsFragment } from '@/graphql/fragments/terms'
 import { graphql } from '@/graphql/gql.tada'
 import { EntityFragmentType } from '@/graphql/types'
@@ -15,6 +15,7 @@ import { calculatePath } from '@/utils/routes'
 import { PageProps } from '@/.next/types/app/layout'
 import { Footer, Header } from '@/components/blocks'
 import { MenuFragment, MenuItemFragment } from '@/graphql/fragments/menu'
+import NodeActivityComponent from '@/integration/node/NodeActivity'
 
 async function getDrupalData({ params }: { params: { slug: string[] } }) {
   const pathFromParams = params.slug?.join('/') || '/home'
@@ -46,6 +47,7 @@ async function getDrupalData({ params }: { params: { slug: string[] } }) {
               }
               ...NodePageFragment
               ...NodeArticleFragment
+              ...NodeActivityFragment
               ...TermTagsFragment
             }
           }
@@ -60,7 +62,7 @@ async function getDrupalData({ params }: { params: { slug: string[] } }) {
         }
       }
     `,
-    [NodePageFragment, NodeArticleFragment, TermTagsFragment, MenuFragment]
+    [NodePageFragment, NodeArticleFragment, TermTagsFragment, MenuFragment, NodeActivityFragment]
   )
   
   const { data, error } = await client.query(nodeRouteQuery, {
@@ -69,7 +71,6 @@ async function getDrupalData({ params }: { params: { slug: string[] } }) {
   if (error) {
     throw error
   }
-
   if (
     !data ||
     !data?.route ||
@@ -91,36 +92,40 @@ async function getDrupalData({ params }: { params: { slug: string[] } }) {
         }
       })
     : []
+    
+  // 处理Footer菜单数据
+  const menuFooter = readFragment(MenuFragment, data.menuFooter)
+  const footerNavItems = menuFooter
+    ? menuFooter.items.map((item) => {
+        const menuItem = readFragment(MenuItemFragment, item)
 
+        return {
+          label: menuItem.label,
+          href: menuItem.href || undefined,
+          expanded: menuItem.expanded,
+        }
+      })
+    : []
+    
   return {
     type: data.route.entity.__typename,
     header: {
       logo: {
-        // add DRUPAL URI as env variable
-        src: `${process.env.DRUPAL_AUTH_URI}/sites/default/files/2024-09/drupal-decoupled.png`,
+        // TODO: logoのsrcを変更する
+        src: `${process.env.DRUPAL_AUTH_URI}/sites/default/files/2025-06/drupal-decoupled.png`,
         alt: 'Company Logo',
       },
       navItems,
-      sticky: true,
-      actions: [
-        {
-          text: 'Docs',
-          href: 'https://drupal-decoupled.octahedroid.com/docs',
-        },
-        {
-          text: 'Quickstart',
-          href: 'https://drupal-decoupled.octahedroid.com/docs/getting-started/quick-start/drupal',
-        },
-      ],
+      sticky: true
     },
     footer: {
       logo: {
         // add DRUPAL URI as env variable
-        src: `${process.env.DRUPAL_AUTH_URI}/sites/default/files/2024-09/drupal-decoupled.png`,
+        src: `${process.env.DRUPAL_AUTH_URI}/sites/default/files/2025-06/drupal-decoupled.png`,
         alt: 'Company Logo',
       },
-      copyrightText: `© ${new Date().getFullYear()} Drupal Decoupled`,
-      navItems: [],
+      copyrightText: `© ${new Date().getFullYear()} 日本生命保険相互会社`,
+      navItems: footerNavItems,
     },
     entity: data.route.entity as EntityFragmentType,
     environment: process.env.ENVIRONMENT!,
@@ -130,18 +135,49 @@ async function getDrupalData({ params }: { params: { slug: string[] } }) {
 export default async function Page({ params }: PageProps) {
   const { type, entity, environment, header, footer } = await getDrupalData({
     params: await params,
-  })
+  })  
+  // 处理Footer菜单数据
+  const footerColumns = []
+  if (footer.navItems && footer.navItems.length > 0) {
+    // 将所有菜单项分成两列
+    const itemsPerColumn = Math.ceil(footer.navItems.length / 2)
+    
+    // 第一列
+    const firstColumnItems = footer.navItems.slice(0, itemsPerColumn)
+    if (firstColumnItems.length > 0) {
+      footerColumns.push({
+        title: "リンク",
+        links: firstColumnItems.map(item => ({
+          children: item.label,
+          href: item.href || '#'
+        }))
+      })
+    }
+    
+    // 第二列
+    const secondColumnItems = footer.navItems.slice(itemsPerColumn)
+    if (secondColumnItems.length > 0) {
+      footerColumns.push({
+        title: " ", // 空标题
+        links: secondColumnItems.map(item => ({
+          children: item.label,
+          href: item.href || '#'
+        }))
+      })
+    }
+  }
+  
   if (!type || !entity) {
     return null
   }
-
+  console.log('type==========', type)
+  console.log('entity==========', entity)
   return (
     <>
       <Header
         logo={header.logo}
         navItems={header.navItems}
         sticky={header.sticky}
-        actions={header.actions}
       />
       {type === 'NodePage' && (
         <NodePageComponent
@@ -160,10 +196,16 @@ export default async function Page({ params }: PageProps) {
           term={entity as FragmentOf<typeof TermTagsFragment>}
         />
       )}
+      {type === 'NodeActivity' && (
+        <NodeActivityComponent
+          node={entity as FragmentOf<typeof NodeActivityFragment>}
+          environment={environment}
+        />
+      )}
       <Footer
         logo={footer.logo}
         copyrightText={footer.copyrightText}
-        columns={[]}
+        columns={footerColumns}
       />
     </>
   )

@@ -34,6 +34,10 @@ import {
   ParagraphViewReferenceFragment,
   ParagraphViewReferenceResolver,
 } from './ParagraphViewReferenceResolver'
+import {
+  ParagraphBannerGroupFragment,
+  ParagraphBannerGroupResolver,
+} from './ParagraphBannerGroupResolver'
 
 type ParagraphFragmentType =
   | FragmentOf<typeof ParagraphHeroFragment>
@@ -44,6 +48,7 @@ type ParagraphFragmentType =
   | FragmentOf<typeof ParagraphFaqFragment>
   | FragmentOf<typeof ParagraphWebformFragment>
   | FragmentOf<typeof ParagraphViewReferenceFragment>
+  | FragmentOf<typeof ParagraphBannerGroupFragment>
 
 interface ResolverProps {
   components: ParagraphFragmentType[]
@@ -70,11 +75,9 @@ export const resolveComponents = ({
       'ParagraphQuestion',
       'ParagraphAuthor',
     ]
-    console.log('type', type)
     if (!type || skipComponents.includes(type)) {
       return <></>
     }
-
     if (type === 'ParagraphHero') {
       return (
         <ParagraphHeroResolver
@@ -146,6 +149,17 @@ export const resolveComponents = ({
           key={index}
           paragraph={
             paragraph as FragmentOf<typeof ParagraphViewReferenceFragment>
+          }
+        />
+      )
+    }
+    
+    if (type === 'ParagraphBannerGroup') {
+      return (
+        <ParagraphBannerGroupResolver
+          key={index}
+          paragraph={
+            paragraph as FragmentOf<typeof ParagraphBannerGroupFragment>
           }
         />
       )
