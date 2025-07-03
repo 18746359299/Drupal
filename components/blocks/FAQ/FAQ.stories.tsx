@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { FAQ } from '@/components/blocks'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
 const meta: Meta<typeof FAQ> = {
   title: 'Blocks/FAQ',
@@ -13,17 +14,17 @@ const meta: Meta<typeof FAQ> = {
       {
         question: 'What is your return policy?',
         answer:
-          'We offer a 30-day money-back guarantee for all our products. If you',
+          'We offer a 30-day money-back guarantee for all our products. If you are not satisfied with your purchase, you can return it within 30 days for a full refund.',
       },
       {
         question: 'How long does shipping take?',
         answer:
-          '<ul><li>Unordered list item 1</li><li>Unordered list item 2</li><li>Unordered list item 3</li></ul>',
+          '<ul><li>Domestic orders: 3-5 business days</li><li>International orders: 7-14 business days</li><li>Express shipping options are available at checkout</li></ul>',
       },
       {
         question: 'Do you offer international shipping?',
         answer:
-          'Yes, we ship to most countries worldwide. Shipping costs and delivery times may vary depending on the destination.',
+          'Yes, we ship to most countries worldwide. Shipping costs and delivery times may vary depending on the destination. Please note that additional customs fees may apply for international orders.',
       },
       {
         question: 'Are your products eco-friendly?',
@@ -41,6 +42,18 @@ const meta: Meta<typeof FAQ> = {
     heading: { control: 'text' },
     description: { control: 'text' },
     questions: { control: 'object' },
+    layout: { 
+      control: 'select', 
+      options: ['default', 'wide', 'full'] 
+    },
+    theme: { 
+      control: 'select', 
+      options: ['light', 'dark', 'primary', 'secondary'] 
+    },
+    rounded: { 
+      control: 'select', 
+      options: ['none', 'default', 'full'] 
+    },
   },
 }
 
@@ -58,5 +71,35 @@ export const WithoutDescription: Story = {
 export const FewerQuestions: Story = {
   args: {
     questions: meta.args!.questions!.slice(0, 3),
+  },
+}
+
+export const DarkTheme: Story = {
+  args: {
+    theme: 'dark',
+    rounded: 'default',
+  },
+}
+
+export const PrimaryTheme: Story = {
+  args: {
+    theme: 'primary',
+    rounded: 'default',
+  },
+}
+
+export const WithIcon: Story = {
+  args: {
+    icon: <QuestionMarkCircleIcon className="w-12 h-12 text-blue-500" />,
+    theme: 'secondary',
+    rounded: 'full',
+  },
+}
+
+export const WideLayout: Story = {
+  args: {
+    layout: 'wide',
+    rounded: 'default',
+    theme: 'secondary',
   },
 }

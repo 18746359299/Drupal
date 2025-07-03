@@ -58,6 +58,9 @@ export const ParagraphFaqResolver = ({ paragraph }: ParagraphFaqProps) => {
       heading={heading}
       description={descriptionOptional || ''}
       questions={questions}
+      theme="light"
+      layout="default"
+      rounded="default"
     />
   )
 }

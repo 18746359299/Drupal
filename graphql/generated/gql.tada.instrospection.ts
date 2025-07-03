@@ -242,6 +242,10 @@ const introspection = {
         "possibleTypes": [
           {
             "kind": "OBJECT",
+            "name": "CouponConnection"
+          },
+          {
+            "kind": "OBJECT",
             "name": "MediaImageConnection"
           },
           {
@@ -394,48 +398,23 @@ const introspection = {
         ]
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "CouponsFilterInput",
-        "inputFields": [
-          {
-            "name": "code",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            }
-          }
-        ],
-        "isOneOf": false
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "CouponsFoodFilterInput",
-        "inputFields": [
-          {
-            "name": "code",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            }
-          }
-        ],
-        "isOneOf": false
-      },
-      {
         "kind": "OBJECT",
-        "name": "CouponsFoodResult",
+        "name": "Coupon",
         "fields": [
           {
-            "name": "description",
+            "name": "category",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "TermUnion"
+              }
             },
             "args": [],
             "isDeprecated": false
           },
           {
-            "name": "display",
+            "name": "code",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -447,15 +426,36 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "filters",
+            "name": "company",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ViewFilter"
-                }
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "discountValue",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float"
               }
             },
             "args": [],
@@ -474,37 +474,19 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "label",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "langcode",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "pageInfo",
+            "name": "mediaImage",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "ViewPageInfo"
+                "name": "MediaImage"
               }
             },
             "args": [],
             "isDeprecated": false
           },
           {
-            "name": "results",
+            "name": "metatag",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -512,8 +494,8 @@ const introspection = {
                 "ofType": {
                   "kind": "NON_NULL",
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "CouponsFoodRow"
+                    "kind": "UNION",
+                    "name": "MetaTagUnion"
                   }
                 }
               }
@@ -522,7 +504,43 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "view",
+            "name": "status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "title",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "validFrom",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "validTo",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -537,19 +555,126 @@ const introspection = {
         "interfaces": [
           {
             "kind": "INTERFACE",
-            "name": "View"
+            "name": "CouponInterface"
+          },
+          {
+            "kind": "INTERFACE",
+            "name": "EdgeNode"
+          },
+          {
+            "kind": "INTERFACE",
+            "name": "MetaTagInterface"
           }
         ]
       },
       {
         "kind": "OBJECT",
-        "name": "CouponsFoodRow",
+        "name": "CouponConnection",
+        "fields": [
+          {
+            "name": "edges",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "CouponEdge"
+                  }
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Coupon"
+                  }
+                }
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "pageInfo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ConnectionPageInfo"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Connection"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CouponEdge",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Cursor"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "node",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Coupon"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          }
+        ],
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "Edge"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "CouponInterface",
         "fields": [
           {
             "name": "category",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "TermUnion"
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -557,8 +682,11 @@ const introspection = {
           {
             "name": "code",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -566,17 +694,77 @@ const introspection = {
           {
             "name": "company",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
             },
             "args": [],
             "isDeprecated": false
           },
           {
-            "name": "imageTargetId",
+            "name": "description",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "discountValue",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "mediaImage",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MediaImage"
+              }
+            },
+            "args": [],
+            "isDeprecated": false
+          },
+          {
+            "name": "metatag",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "UNION",
+                    "name": "MetaTagUnion"
+                  }
+                }
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -584,8 +772,11 @@ const introspection = {
           {
             "name": "status",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean"
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -593,8 +784,11 @@ const introspection = {
           {
             "name": "title",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -602,8 +796,11 @@ const introspection = {
           {
             "name": "validFrom",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
             },
             "args": [],
             "isDeprecated": false
@@ -611,14 +808,33 @@ const introspection = {
           {
             "name": "validTo",
             "type": {
-              "kind": "SCALAR",
-              "name": "String"
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String"
+              }
             },
             "args": [],
             "isDeprecated": false
           }
         ],
-        "interfaces": []
+        "interfaces": [],
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Coupon"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CouponUnion",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Coupon"
+          }
+        ]
       },
       {
         "kind": "OBJECT",
@@ -646,21 +862,6 @@ const introspection = {
             "isDeprecated": false
           },
           {
-            "name": "filters",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ViewFilter"
-                }
-              }
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
             "name": "id",
             "type": {
               "kind": "NON_NULL",
@@ -711,8 +912,8 @@ const introspection = {
                 "ofType": {
                   "kind": "NON_NULL",
                   "ofType": {
-                    "kind": "OBJECT",
-                    "name": "CouponsRow"
+                    "kind": "UNION",
+                    "name": "CouponUnion"
                   }
                 }
               }
@@ -739,85 +940,6 @@ const introspection = {
             "name": "View"
           }
         ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "CouponsRow",
-        "fields": [
-          {
-            "name": "category",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "code",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "company",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "imageTargetId",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "status",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "validFrom",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          },
-          {
-            "name": "validTo",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String"
-            },
-            "args": [],
-            "isDeprecated": false
-          }
-        ],
-        "interfaces": []
       },
       {
         "kind": "SCALAR",
@@ -911,6 +1033,10 @@ const introspection = {
         "possibleTypes": [
           {
             "kind": "OBJECT",
+            "name": "CouponEdge"
+          },
+          {
+            "kind": "OBJECT",
             "name": "MediaImageEdge"
           },
           {
@@ -1002,6 +1128,10 @@ const introspection = {
         ],
         "interfaces": [],
         "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Coupon"
+          },
           {
             "kind": "OBJECT",
             "name": "MediaImage"
@@ -2189,6 +2319,10 @@ const introspection = {
         ],
         "interfaces": [],
         "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Coupon"
+          },
           {
             "kind": "OBJECT",
             "name": "MediaImage"
@@ -6186,44 +6320,32 @@ const introspection = {
             "isDeprecated": false
           },
           {
+            "name": "coupon",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Coupon"
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID"
+                  }
+                }
+              }
+            ],
+            "isDeprecated": false
+          },
+          {
             "name": "coupons",
             "type": {
               "kind": "OBJECT",
               "name": "CouponsResult"
             },
             "args": [
-              {
-                "name": "filter",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CouponsFilterInput"
-                }
-              },
-              {
-                "name": "page",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int"
-                },
-                "defaultValue": "0"
-              }
-            ],
-            "isDeprecated": false
-          },
-          {
-            "name": "couponsFood",
-            "type": {
-              "kind": "OBJECT",
-              "name": "CouponsFoodResult"
-            },
-            "args": [
-              {
-                "name": "filter",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CouponsFoodFilterInput"
-                }
-              },
               {
                 "name": "page",
                 "type": {
@@ -7968,6 +8090,10 @@ const introspection = {
         "kind": "UNION",
         "name": "RouteEntityUnion",
         "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Coupon"
+          },
           {
             "kind": "OBJECT",
             "name": "MediaImage"
@@ -9812,10 +9938,6 @@ const introspection = {
           },
           {
             "kind": "OBJECT",
-            "name": "CouponsFoodResult"
-          },
-          {
-            "kind": "OBJECT",
             "name": "CouponsResult"
           },
           {
@@ -10400,10 +10522,6 @@ const introspection = {
           {
             "kind": "OBJECT",
             "name": "ActivityGraphql1Result"
-          },
-          {
-            "kind": "OBJECT",
-            "name": "CouponsFoodResult"
           },
           {
             "kind": "OBJECT",

@@ -1,6 +1,7 @@
 import { graphql } from '@/graphql/gql.tada'
 import { MediaImageFragment } from '@/graphql/fragments/media'
 import { UserFragment } from '@/graphql/fragments/user'
+import { TermCouponCategoriesFragment } from '@/graphql/fragments/terms'
 
 // @todo fix importing NodeArticleTeaserFragment from node.ts
 // import { NodeArticleTeaserFragment } from "~/graphql/fragments/node";
@@ -43,19 +44,27 @@ export const NodeActivityTeaserFragment = graphql(
   [MediaImageFragment, UserFragment]
 )
 
-export const NodeCouponFragment = graphql(`
-  fragment NodeCouponFragment on CouponsRow {
-    __typename
-    code
-    couponTitle: title
-    company
-    category
-    validFrom
-    validTo
-    status
-    imageTargetId
-  }
-`)
+export const NodeCouponFragment = graphql(
+  `
+    fragment NodeCouponFragment on Coupon {
+      __typename
+      id
+      code
+      couponTitle: title
+      company
+      category {
+        ...TermCouponCategoriesFragment
+      }
+      validFrom
+      validTo
+      status
+      mediaImage {
+        ...MediaImageFragment
+      }
+    }
+  `,
+  [MediaImageFragment, TermCouponCategoriesFragment]
+)
 export const ViewBlogTeaserResultFragment = graphql(
   `
     fragment ViewBlogTeaserResultFragment on ViewBlogTeaserResult {
@@ -70,7 +79,6 @@ export const ViewBlogTeaserResultFragment = graphql(
   `,
   [NodeArticleTeaserFragment]
 )
-
 export const ViewBlogTeaserFeaturedResultFragment = graphql(
   `
     fragment ViewBlogTeaserFeaturedResultFragment on ViewBlogTeaserFeaturedResult {

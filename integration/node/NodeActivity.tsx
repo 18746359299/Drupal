@@ -28,20 +28,25 @@ export default function NodeActivityComponent({ node }: NodeActivityComponentPro
   const resolvedComponents = resolveComponents({ components: content })
   
   return (
-    <div className="container mx-auto py-8">
-      <Activity
-        title={title}
-        content={activityBody.processed.toString()}
-        author={resolveUser(author)}
-        image={resolveMediaImage(image)}
-        publishDate={Number(changed.timestamp)}
-        summary={summary}
-      />
+    <div className="container mx-auto">
+      <div className="bg-white mt-12 p-8 dark:bg-gray-800">
+        <Activity
+          title={title}
+          content={activityBody.processed.toString()}
+          author={resolveUser(author)}
+          image={resolveMediaImage(image)}
+          publishDate={Number(changed.timestamp)}
+          summary={summary}
+          layout="featured"
+        />
+      </div>
       {resolvedComponents && resolvedComponents.length > 0 && (
-        <div className="mt-12">
-          {resolvedComponents.map((component: React.ReactNode, index: number) => {
-            return <Fragment key={index}>{component}</Fragment>
-          })}
+        <div className="bg-white p-8 dark:bg-gray-800">
+          <div className="space-y-8">
+            {resolvedComponents.map((component: React.ReactNode, index: number) => {
+              return <Fragment key={index}>{component}</Fragment>
+            })}
+          </div>
         </div>
       )}
     </div>

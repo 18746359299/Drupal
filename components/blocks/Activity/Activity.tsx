@@ -10,8 +10,15 @@ import {
 import { cn } from '@/lib/utils'
 
 const activityVariants = cva('w-full mb-12 md:mb-16', {
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    layout: {
+      default: '',
+      featured: 'bg-gray-50 dark:bg-gray-900 rounded-xl overflow-hidden',
+    }
+  },
+  defaultVariants: {
+    layout: 'default'
+  },
 })
 
 type AuthorProps = {
@@ -29,6 +36,7 @@ export interface ActivityProps
   tags?: string[]
   publishDate: number
   author: AuthorProps
+  layout?: 'default' | 'featured'
 }
 
 const formatDate = (timestamp: number): string => {
@@ -51,37 +59,67 @@ export const Activity = ({
   tags,
   publishDate,
   author,
+  layout = 'default',
   ...props
 }: ActivityProps) => {
   return (
-    <article className={cn(activityVariants(), className)} {...props}>
-      <div className="md:md-16 container mb-12">
+    <article className={cn(activityVariants({ layout }), className)} {...props}>
+      <div className={cn(
+        "relative w-full", 
+        layout === 'featured' ? "h-96" : "md:md-16 container mb-12"
+      )}>
         <img
           {...image}
           alt={image.alt}
-          className="h-auto w-full object-cover"
+          className={cn(
+            "object-cover", 
+            layout === 'featured' 
+              ? "absolute inset-0 w-full h-full" 
+              : "h-auto w-full"
+          )}
         />
-      </div>
-      <div className="mx-auto mb-8 max-w-4xl px-4 sm:px-6 lg:px-8">
-        <h1 className="mb-6 text-4xl font-bold text-gray-900 sm:text-5xl md:text-6xl dark:text-gray-100">
-          {title}
-        </h1>
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Avatar src={author.avatar.src} name={author.name} />
-            <p className="text-sm font-medium">{author.name}</p>
-          </div>
-          <p className="text-sm text-gray-500">{formatDate(publishDate)}</p>
-        </div>
-        {tags && (
-          <div className="mb-8 flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
-              <Badge text={tag} variant="secondary" key={index} />
-            ))}
+        {layout === 'featured' && (
+          <div className="bg-gradient-to-t to-transparent from-black/70 inset-0 absolute">
+            <div className="text-white p-8 bottom-0 left-0 absolute">
+              <h1 className="font-bold mb-2 text-4xl">{title}</h1>
+              {summary && <p className="text-lg text-gray-200">{summary}</p>}
+            </div>
           </div>
         )}
-        {summary && <p className="mb-8 text-gray-400 italic">{summary}</p>}
-        <RichText content={content} />
+      </div>
+      <div className={cn(
+        "mx-auto max-w-4xl", 
+        layout === 'featured' ? "px-8 py-8" : "px-4 sm:px-6 lg:px-8 mb-8"
+      )}>
+        {layout !== 'featured' && (
+          <h1 className="font-bold mb-6 text-4xl text-gray-900 sm:text-5xl md:text-6xl dark:text-gray-100">
+            {title}
+          </h1>
+        )}
+        <div className="flex flex-wrap mb-8 gap-4 items-center justify-between">
+          <div className="flex gap-3 items-center">
+            <Avatar src={author.avatar.src} name={author.name} />
+            <p className="font-medium text-sm">{author.name}</p>
+          </div>
+          <div className="flex gap-4 items-center">
+            <p className="text-sm text-gray-500">{formatDate(publishDate)}</p>
+            {tags && tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag, index) => (
+                  <Badge text={tag} variant="secondary" key={index} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        {layout !== 'featured' && summary && (
+          <p className="text-xl mb-8 leading-relaxed text-gray-600 italic dark:text-gray-400">
+            {summary}
+          </p>
+        )}
+        <div className="max-w-none prose prose-lg dark:prose-invert">
+          <RichText content={content} />
+        </div>
       </div>
     </article>
   )

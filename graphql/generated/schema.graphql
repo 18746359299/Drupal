@@ -198,6 +198,12 @@ type Query {
     revision: ID
   ): ParagraphWebform
 
+  """Load a Coupon entity by id"""
+  coupon(
+    """The id of the Coupon to load."""
+    id: ID!
+  ): Coupon
+
   """Load a Menu by name."""
   menu(
     """Internal menu name. Eg MAIN"""
@@ -575,6 +581,12 @@ type Query {
     sortKey: ConnectionSortKeys
   ): ParagraphWebformConnection!
 
+  """Query for view coupons display all."""
+  coupons(
+    """The page number to display."""
+    page: Int = 0
+  ): CouponsResult
+
   """List of all User on the platform."""
   users(
     """Returns the elements that come after the specified cursor."""
@@ -642,24 +654,6 @@ type Query {
     """The page number to display."""
     page: Int = 0
   ): ViewBlogTeaserFeaturedResult
-
-  """Query for view coupons display all."""
-  coupons(
-    """The page number to display."""
-    page: Int = 0
-
-    """Filter the view."""
-    filter: CouponsFilterInput
-  ): CouponsResult
-
-  """Query for view coupons display graphql_2."""
-  couponsFood(
-    """The page number to display."""
-    page: Int = 0
-
-    """Filter the view."""
-    filter: CouponsFoodFilterInput
-  ): CouponsFoodResult
 
   """Load a webform."""
   webform(
@@ -1626,7 +1620,7 @@ enum SortDirection {
 }
 
 """All available view result types."""
-union ViewResultUnion = ActivityGraphql1Result | ViewBlogMonthFeaturedResult | ViewBlogTeaserResult | ViewBlogTeaserFeaturedResult | CouponsResult | CouponsFoodResult
+union ViewResultUnion = ActivityGraphql1Result | ViewBlogMonthFeaturedResult | ViewBlogTeaserResult | ViewBlogTeaserFeaturedResult | CouponsResult
 
 """Result for view activity display graphql_1."""
 type ActivityGraphql1Result implements View {
@@ -1903,104 +1897,89 @@ type CouponsResult implements View {
   """Information about the page in the view."""
   pageInfo: ViewPageInfo!
 
-  """Exposed filters for the view."""
-  filters: [ViewFilter]!
-
   """The results of the view."""
-  results: [CouponsRow!]!
+  results: [CouponUnion!]!
 }
 
-"""An exposed filter option for the view."""
-type ViewFilter {
-  """The filter identifier."""
+"""Entity type coupon."""
+union CouponUnion = Coupon
+
+"""Entity type coupon."""
+type Coupon implements CouponInterface & MetaTagInterface & EdgeNode {
+  """The Universally Unique IDentifier (UUID)."""
   id: ID!
 
-  """The filter plugin type."""
-  plugin: String!
+  """円以上で割引 / 円引"""
+  category: TermUnion!
 
-  """The filter element type."""
-  type: String!
+  """クーポンコード"""
+  code: String!
 
-  """The filter operator."""
-  operator: String!
+  """会社"""
+  company: String!
 
-  """The filter element label."""
-  label: String
+  """説明"""
+  description: String!
 
-  """The filter element description."""
-  description: String
+  """割引額/値引き"""
+  discountValue: Float!
 
-  """Whether the filter is required."""
-  required: Boolean!
+  """画像."""
+  mediaImage: MediaImage!
 
-  """Whether the filter allows multiple values."""
-  multiple: Boolean!
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
 
-  """The value for the filter. Could be an array for multiple values."""
-  value: UntypedStructuredData
+  """有効化"""
+  status: Boolean!
 
-  """The filter element options if any are defined."""
-  options: UntypedStructuredData
+  """タイトル"""
+  title: String!
 
-  """The filter element attributes."""
-  attributes: UntypedStructuredData!
+  """有効開始日"""
+  validFrom: String!
+
+  """有効終了日"""
+  validTo: String!
 }
 
-"""Untyped structured data. Eg JSON, configuration, settings, attributes."""
-scalar UntypedStructuredData
-
-"""Result for view coupons display all."""
-type CouponsRow {
-  code: String
-  title: String
-  company: String
-  category: String
-  validFrom: String
-  validTo: String
-  status: String
-  imageTargetId: String
-}
-
-"""Result for view coupons display graphql_2."""
-type CouponsFoodResult implements View {
-  """The ID of the view."""
+"""Entity type coupon."""
+interface CouponInterface {
+  """The Universally Unique IDentifier (UUID)."""
   id: ID!
 
-  """The machine name of the view."""
-  view: String!
+  """円以上で割引 / 円引"""
+  category: TermUnion!
 
-  """The machine name of the display."""
-  display: String!
+  """クーポンコード"""
+  code: String!
 
-  """The language code of the view."""
-  langcode: String
+  """会社"""
+  company: String!
 
-  """The human friendly label of the view."""
-  label: String
+  """説明"""
+  description: String!
 
-  """The description of the view."""
-  description: String
+  """割引額/値引き"""
+  discountValue: Float!
 
-  """Information about the page in the view."""
-  pageInfo: ViewPageInfo!
+  """画像."""
+  mediaImage: MediaImage!
 
-  """Exposed filters for the view."""
-  filters: [ViewFilter]!
+  """The computed meta tags for the entity."""
+  metatag: [MetaTagUnion!]!
 
-  """The results of the view."""
-  results: [CouponsFoodRow!]!
-}
+  """有効化"""
+  status: Boolean!
 
-"""Result for view coupons display graphql_2."""
-type CouponsFoodRow {
-  code: String
-  title: String
-  company: String
-  category: String
-  validFrom: String
-  validTo: String
-  status: String
-  imageTargetId: String
+  """タイトル"""
+  title: String!
+
+  """有効開始日"""
+  validFrom: String!
+
+  """有効終了日"""
+  validTo: String!
 }
 
 """Entity type paragraph."""
@@ -2186,7 +2165,7 @@ interface Route {
 }
 
 """A list of possible entities that can be returned by URL."""
-union RouteEntityUnion = MediaImage | TermActivityTags | TermKuponfenLei | TermTags | NodeActivity | NodeArticle | NodePage
+union RouteEntityUnion = MediaImage | TermActivityTags | TermKuponfenLei | TermTags | NodeActivity | NodeArticle | NodePage | Coupon
 
 """Route outside of this website."""
 type RouteExternal implements Route {
@@ -2553,16 +2532,6 @@ type UserEdge implements Edge {
   node: User!
 }
 
-input CouponsFilterInput {
-  """クーポンコード """
-  code: String
-}
-
-input CouponsFoodFilterInput {
-  """クーポンコード """
-  code: String
-}
-
 """The schema's entry-point for mutations."""
 type Mutation {
   """Placeholder for mutation extension."""
@@ -2623,6 +2592,19 @@ input BetweenStringInput {
   max: String
 }
 
+"""A paginated set of results for Coupon."""
+type CouponConnection implements Connection {
+  edges: [CouponEdge!]!
+  nodes: [Coupon!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+"""Edge for Coupon."""
+type CouponEdge implements Edge {
+  cursor: Cursor!
+  node: Coupon!
+}
+
 """A file object to represent an managed file."""
 type File {
   """The name of the file."""
@@ -2673,8 +2655,47 @@ type UnsupportedType {
   unsupported: Boolean
 }
 
+"""Untyped structured data. Eg JSON, configuration, settings, attributes."""
+scalar UntypedStructuredData
+
 """Entity type user."""
 union UserUnion = User
+
+"""An exposed filter option for the view."""
+type ViewFilter {
+  """The filter identifier."""
+  id: ID!
+
+  """The filter plugin type."""
+  plugin: String!
+
+  """The filter element type."""
+  type: String!
+
+  """The filter operator."""
+  operator: String!
+
+  """The filter element label."""
+  label: String
+
+  """The filter element description."""
+  description: String
+
+  """Whether the filter is required."""
+  required: Boolean!
+
+  """Whether the filter allows multiple values."""
+  multiple: Boolean!
+
+  """The value for the filter. Could be an array for multiple values."""
+  value: UntypedStructuredData
+
+  """The filter element options if any are defined."""
+  options: UntypedStructuredData
+
+  """The filter element attributes."""
+  attributes: UntypedStructuredData!
+}
 
 """A reference to an embedded view"""
 type ViewReference {

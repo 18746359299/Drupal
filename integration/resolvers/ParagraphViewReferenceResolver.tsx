@@ -9,13 +9,13 @@ import {
   ViewCouponResultFragment,
   NodeCouponFragment,
   ViewActivityResultFragment,
-  NodeActivityFragment
+  NodeActivityTeaserFragment
 } from '@/graphql/fragments/view'
 import { LinkFragment } from '@/graphql/fragments/misc'
 import { NodeArticleTeaserFragment } from '@/graphql/fragments/node'
 import { resolveMediaImage } from '@/integration/resolvers/helpers'
 import { getCouponCategories } from '@/integration/resolvers/CouponCategoriesResolver'
-
+import { TermCouponCategoriesFragment } from '@/graphql/fragments/terms'
 interface ParagraphViewReferenceProps {
   paragraph: FragmentOf<typeof ParagraphViewReferenceFragment>
 }
@@ -222,16 +222,13 @@ export const ParagraphViewReferenceResolver = async ({
         item as FragmentOf<typeof NodeCouponFragment>
       )
       
-      // 默认值
-      let couponStatus: 'available' | 'limited' | 'expired' = 'available';
-      
-      // 根据API返回的status字段确定优惠券状态
-      if (coupon.status) {
-        if (coupon.status.toLowerCase().includes('expired')) {
-          couponStatus = 'expired';
-        } else if (coupon.status.toLowerCase().includes('limited')) {
-          couponStatus = 'limited';
-        }
+      // 确保状态是有效的枚举值
+      let couponStatus: 'available' | 'expired' | 'limited' = 'available';
+      if (coupon.status === false) {
+        couponStatus = 'expired';
+      } else if (coupon.status === true && new Date(coupon.validTo || '') < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)) {
+        // 如果有效期不到7天，标记为limited
+        couponStatus = 'limited';
       }
       
       // 计算过期日期显示
@@ -240,28 +237,33 @@ export const ParagraphViewReferenceResolver = async ({
         expiryDate = coupon.validTo;
       }
       
+      // 解析媒体图片，确保src和alt总是字符串
+      const mediaImage = resolveMediaImage(coupon.mediaImage);
+      const src = mediaImage.src || '/static/placeholders/drupal-decoupled/landscape-small.png'; // 使用默认图片
+      const alt = mediaImage.alt || coupon.couponTitle || '优惠券图片';
+      const category = coupon.category ? readFragment(TermCouponCategoriesFragment, coupon.category) : null;
+      let categoryId = '';
+      if (category && category.__typename === 'TermKuponfenLei') {
+        categoryId = category.id;
+      }
       return {
         id: coupon.code || '',
         title: coupon.couponTitle || '',
         discount: coupon.company || '',
         isFavorite: false,
-        image: coupon.imageTargetId ? {
-          src: `/api/media/${coupon.imageTargetId}`,
-          alt: coupon.couponTitle || '',
-        } : {
-          src: '/static/placeholders/drupal-decoupled/landscape-small.png',
-          alt: coupon.couponTitle || '',
+        image: {
+          src,
+          alt,
         },
         status: couponStatus,
         expiryDate: expiryDate,
-        category: coupon.category || '',
+        category: categoryId
       }
     }) : [];
-    
     if (display === 'all') {
       // 当display等于all时，按照category分类显示
       const categories = await getCouponCategories();
-      
+      console.log('categories==========', categories)
       return (
         <CouponGroup
           id={id}
@@ -270,7 +272,7 @@ export const ParagraphViewReferenceResolver = async ({
           subheading={subheadingOptional || ""}
           coupons={coupons}
           categories={categories}
-          activeCategory={categories && categories.length > 0 ? categories[0].name : undefined}
+          activeCategory={categories && categories.length > 0 ? categories[0].id : undefined}
           showCategories={true}
         />
       )
@@ -291,13 +293,12 @@ export const ParagraphViewReferenceResolver = async ({
   }
   // 活动处理
   if (view === 'activity') {
-    console.log('results==========', results)
     const cards = results
       ? results.map((item) => {
           try {
             const { image, path, summary, title } = readFragment(
-              NodeActivityFragment,
-              item as FragmentOf<typeof NodeActivityFragment>
+              NodeActivityTeaserFragment,
+              item as FragmentOf<typeof NodeActivityTeaserFragment>
             )
             
             // 始终使用activity类型

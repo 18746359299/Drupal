@@ -89,10 +89,10 @@ export const CouponGroup = ({
   ...props
 }: CouponGroupProps) => {
   // 设置内部状态，如果没有提供activeCategory，则使用第一个分类
-  const [currentCategory, setCurrentCategory] = useState(activeCategory || categories[0]?.name);
+  const [currentCategory, setCurrentCategory] = useState(activeCategory || categories[0]?.id);
   
   // 找出当前活动的分类
-  const activeCat = categories.find(cat => cat.name === currentCategory) || categories[0];
+  const activeCat = categories.find(cat => cat.id === currentCategory) || categories[0];
   
   // 根据活动分类或传入的heading确定要显示的标题
   const currentHeading = heading || activeCat?.title || "クーポン";
@@ -123,10 +123,10 @@ export const CouponGroup = ({
       }
       
       // 查找当前选中的分类对象
-      const selectedCategory = categories.find(cat => cat.name === currentCategory);
+      const selectedCategory = categories.find(cat => cat.id === currentCategory);
       // 使用分类ID进行匹配（如果可用），否则使用分类名称
       if (selectedCategory) {
-        return coupon.category === selectedCategory.name;
+        return coupon.category === selectedCategory.id;
       }
       
       // 默认情况下显示所有优惠券
@@ -137,30 +137,30 @@ export const CouponGroup = ({
 
   return (
     <div className={cn(couponGroupVariants(), className)} {...props}>
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12 text-center max-w-3xl mx-auto">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto text-center mb-12 max-w-3xl">
           {/* 主标题 */}
           {title && (
-            <h2 className="text-3xl font-bold tracking-tight mb-4 text-slate-800 relative inline-block">
+            <h2 className="font-bold mb-4 tracking-tight text-3xl text-slate-800 relative inline-block">
               {title}
-              <span className="absolute -bottom-2 left-0 w-full h-1 bg-amber-500 rounded-full"></span>
+              <span className="rounded-full bg-amber-500 h-1 w-full -bottom-2 left-0 absolute"></span>
             </h2>
           )}
           {subheading && (
-            <p className="text-xl text-slate-600 mt-6">{subheading}</p>
+            <p className="mt-6 text-xl text-slate-600">{subheading}</p>
           )}
         </div>
 
         {/* カテゴリータブ - 只在showCategories为true时显示 */}
         {showCategories && categories.length > 0 && (
-          <div className="mb-8 flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap mb-8 gap-3 justify-center">
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => handleCategoryClick(category.name)}
+                onClick={() => handleCategoryClick(category.id)}
                 className={cn(
                   "rounded-full px-5 py-2.5 text-sm font-medium transition-colors shadow-sm",
-                  category.name === currentCategory
+                  category.id === currentCategory
                     ? "bg-gray-800 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-100"
                 )}
@@ -172,12 +172,12 @@ export const CouponGroup = ({
         )}
 
         {/* 分类标题 */}
-        <h3 className="mb-8 text-center text-2xl font-bold text-gray-800">
+        <h3 className="font-bold text-center mb-8 text-2xl text-gray-800">
           {currentHeading}
         </h3>
 
         {/* クーポン一覧 */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl auto-rows-fr grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredCoupons.map((coupon) => (
             <CouponCard key={coupon.id} {...coupon} className="cursor-pointer" />
           ))}
